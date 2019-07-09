@@ -1,8 +1,11 @@
 package com.Character;
 
+import com.Exception.InvalidLvlException;
+import com.Exception.TooHightAttributesException;
+
 public class Wizard extends Character {
 
-    public Wizard(int numPlayer, int vit, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) {
+    public Wizard(int numPlayer, int vit, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) throws InvalidLvlException, TooHightAttributesException {
         super(numPlayer, str, agi, intel, basicAttack, specialAttack, lvl);
     }
 

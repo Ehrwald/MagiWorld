@@ -1,10 +1,13 @@
 package com.Character;
 
+import com.Exception.InvalidLvlException;
+import com.Exception.TooHightAttributesException;
+
 public class Warrior extends Character {
 
 
 
-    public Warrior(int numPlayer, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) {
+    public Warrior(int numPlayer, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) throws InvalidLvlException, TooHightAttributesException {
         super(numPlayer, str, agi, intel, basicAttack, specialAttack, lvl);
     }
 
