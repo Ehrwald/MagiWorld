@@ -3,7 +3,7 @@ package com.Character;
 public class Wizard extends Character {
 
     public Wizard(int numPlayer, int vit, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) {
-        super(numPlayer, vit, str, agi, intel, basicAttack, specialAttack, lvl);
+        super(numPlayer, str, agi, intel, basicAttack, specialAttack, lvl);
     }
 
     @Override
@@ -21,19 +21,10 @@ public class Wizard extends Character {
 
         this.specialAttack = this.intel *2;
         this.vit += this.specialAttack;
+        System.out.println("Joueur " + this.numPlayer+ " utilise Soin et se soigne de " + this.specialAttack +
+                " point de vie."  );
         if(this.vit < maxLifePoint(this.lvl))
             this.vit = maxLifePoint(this.lvl);
-
-        /*
-
-        if (this.vit < maxLifePoint(this.lvl)){
-            this.vit += this.specialAttack;
-            System.out.println("Joueur " + this.numPlayer + " utilise Soin et récupère  " + this.specialAttack +
-            " de point de vie.");
-        } else (this.specialAttack + this.vit > maxLifePoint(this.lvl)){
-
-        }
-*/
 
     }
 
@@ -44,7 +35,7 @@ public class Wizard extends Character {
 
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Wizard w = new Wizard(1, 5,5,5,5,5,5,5);
         System.out.println(w.getLvl());
         w.specialAtk(w);
@@ -54,6 +45,6 @@ public class Wizard extends Character {
         w.specialAtk(w);
 
 
-    }
+    }*/
 
 }

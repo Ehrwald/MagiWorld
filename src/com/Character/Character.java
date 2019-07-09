@@ -1,5 +1,8 @@
 package com.Character;
 
+import com.Exception.InvalidLvlException;
+import com.Exception.TooHightAttributesException;
+
 public abstract class Character {
 
 
@@ -13,7 +16,7 @@ public abstract class Character {
     protected int specialAttack;
     protected int lvl;
 
-    public Character(int numPlayer, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) {
+    public Character(int numPlayer, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) throws TooHightAttributesException, InvalidLvlException {
         this.numPlayer = numPlayer;
         this.lvl = lvl;
         this.vit = maxLifePoint();
@@ -22,7 +25,15 @@ public abstract class Character {
         this.intel = intel;
         this.basicAttack = basicAttack;
         this.specialAttack = specialAttack;
+        int attributs = str + agi + intel;
+            if (attributs > lvl){
+                throw new TooHightAttributesException("la somme des attribues (" + attributs + ") ne peux pas être supérieur au niveau du personnage (" + lvl + ")");
+            }
+            if (lvl<1 || lvl>100){
+                throw new InvalidLvlException("Le niveau " +lvl+ " dois être supérieur à 1 et inférieur à 100.");
+            }
     }
+
 
     public int getNumPlayer() {
         return numPlayer;
@@ -97,7 +108,5 @@ public abstract class Character {
     }
 
 
-    // TODO: calculer la vie sur le niveau *5.
-    //TODO niveau choisi par le joueur min 1 et le total de point de caractéristiques doit pas excéder le niveau.
 }
 
