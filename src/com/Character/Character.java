@@ -15,6 +15,7 @@ public abstract class Character {
     protected int basicAttack;
     protected int specialAttack;
     protected int lvl;
+    protected String nom = "";
 
     public Character(int numPlayer, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) throws TooHightAttributesException, InvalidLvlException {
         this.numPlayer = numPlayer;
@@ -23,6 +24,7 @@ public abstract class Character {
         this.str = str;
         this.agi = agi;
         this.intel = intel;
+        this.nom = nom;
         this.basicAttack = basicAttack;
         this.specialAttack = specialAttack;
         int attributs = str + agi + intel;
@@ -107,6 +109,24 @@ public abstract class Character {
        return this.lvl*5;
     }
 
+    public boolean estVivant() {
+        return this.vit>0;
+    }
+
+    public String getNom() {
+        return this.nom;
+    }
+
+    public String getDescription() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.nom);
+        sb.append(" niveau ").append(this.lvl);
+        sb.append(" je possède ").append(this.vit).append(" de vitalité, ");
+        sb.append(this.str).append(" de force, ");
+        sb.append(this.agi).append(" d'agilité");
+        sb.append(this.intel).append(" d'intelligence !");
+        return sb.toString();
+    };
 
 }
 
