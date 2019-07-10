@@ -1,130 +1,97 @@
 package com.Character;
 
-import com.Exception.InvalidLvlException;
-import com.Exception.TooHightAttributesException;
+import com.Exception.InvalidNiveauException;
+import com.Exception.TooHighAttributesException;
 
-public abstract class Character {
+public abstract class Character implements Attaquant{
 
 
 
-    protected int numPlayer;
-    protected int vit;
-    protected int str;
-    protected int agi;
-    protected int intel;
-    protected int basicAttack;
-    protected int specialAttack;
-    protected int lvl;
-    protected String nom = "";
+    protected int niveau=0;
+    protected int vie=0;
+    protected int force=0, agilite=0, intelligence=0;
+    protected String nom="";
+    protected String nomAttaqueBasique="";
+    protected String nomAttaqueSpeciale="";
 
-    public Character(int numPlayer, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) throws TooHightAttributesException, InvalidLvlException {
-        this.numPlayer = numPlayer;
-        this.lvl = lvl;
-        this.vit = maxLifePoint();
-        this.str = str;
-        this.agi = agi;
-        this.intel = intel;
+    /**
+     * instancie un héro en lui attribuant une vie 5* supérieur au niveau
+     * @param niveau
+     * @param force
+     * @param agilite
+     * @param intelligence
+     * @param nom
+     * @throws TooHighAttributesException si la sommes des attributs est supérieure au niveau
+     * @throws InvalidNiveauException si le niveau est supérieur à 100
+     */
+    public Character(int niveau, int force, int agilite, int intelligence, String nom)
+            throws TooHighAttributesException, InvalidNiveauException {
+        int attributs = force+agilite+intelligence;
+        if(attributs > niveau)
+            throw new TooHighAttributesException(
+                    "La somme des attribues ("+attributs+") ne peux pas être supérieure au niveau du héro ("
+                            +niveau+")");
+        if(niveau<1 || niveau > 100)
+            throw new InvalidNiveauException("Le niveau "+niveau+ " n'est pas autorisé (max 100)");
+        this.niveau = niveau;
+        this.vie = niveau*5;
+        this.force = force;
+        this.agilite = agilite;
+        this.intelligence = intelligence;
         this.nom = nom;
-        this.basicAttack = basicAttack;
-        this.specialAttack = specialAttack;
-        int attributs = str + agi + intel;
-            if (attributs > lvl){
-                throw new TooHightAttributesException("la somme des attribues (" + attributs + ") ne peux pas être supérieur au niveau du personnage (" + lvl + ")");
-            }
-            if (lvl<1 || lvl>100){
-                throw new InvalidLvlException("Le niveau " +lvl+ " dois être supérieur à 1 et inférieur à 100.");
-            }
     }
 
 
-    public int getNumPlayer() {
-        return numPlayer;
+    /**
+     * inflige des dégats au personnage et le signal en écrivant un message de suivit
+     * si la vitalité passe à 0, affiche que le personnage est mort
+     * @param degats
+     */
+    public void prendreDegats(int degats) {
+        System.out.println(this.nom + " perd " + degats + " points de vie.");
+        this.vie -= degats;
+        if(this.vie<1) {
+            this.vie = 0;
+            System.out.println(this.nom + " est mort!");
+        }
     }
 
-    public void setNumPlayer(int numPlayer) {
-        this.numPlayer = numPlayer;
+    public int getVie() {
+        return this.vie;
     }
 
-    public int getVit() {
-        return vit;
-    }
-
-    public void setVit(int vit) {
-        this.vit = vit;
-    }
-
-    public int getStr() {
-        return str;
-    }
-
-    public void setStr(int str) {
-        this.str = str;
-    }
-
-    public int getAgi() {
-        return agi;
-    }
-
-    public void setAgi(int agi) {
-        this.agi = agi;
-    }
-
-    public int getIntel() {
-        return intel;
-    }
-
-    public void setIntel(int intel) {
-        this.intel = intel;
-    }
-
-    public int getBasicAttack() {
-        return basicAttack;
-    }
-
-    public void setBasicAttack(int basicAttack) {
-        this.basicAttack = basicAttack;
-    }
-
-    public int getSpecialAttack() {
-        return specialAttack;
-    }
-
-    public void setSpecialAttack(int specialAttack) {
-        this.specialAttack = specialAttack;
-    }
-
-    public int getLvl() {
-        return lvl;
-    }
-
-    public void setLvl(int lvl) {
-        this.lvl = lvl;
-    }
-
-    public abstract void basicAtk(Character enemy);
-
-    public abstract void specialAtk(Character enemy);
-
-    public int maxLifePoint(){
-       return this.lvl*5;
-    }
-
+    /**
+     * permet de savoir si le personnage est en vie
+     * @return
+     */
     public boolean estVivant() {
-        return this.vit>0;
+        return this.vie>0;
     }
 
     public String getNom() {
         return this.nom;
     }
 
+    public String getNomAttaqueBasique() {
+        return nomAttaqueBasique;
+    }
+
+    public String getNomAttaqueSpeciale() {
+        return nomAttaqueSpeciale;
+    }
+
+    /**
+     * renvoit un message de présentation du personnage
+     * @return
+     */
     public String getDescription() {
         StringBuffer sb = new StringBuffer();
         sb.append(this.nom);
-        sb.append(" niveau ").append(this.lvl);
-        sb.append(" je possède ").append(this.vit).append(" de vitalité, ");
-        sb.append(this.str).append(" de force, ");
-        sb.append(this.agi).append(" d'agilité");
-        sb.append(this.intel).append(" d'intelligence !");
+        sb.append(" niveau ").append(this.niveau);
+        sb.append(" je possède ").append(this.vie).append(" de vitalité, ");
+        sb.append(this.force).append(" de force, ");
+        sb.append(this.agilite).append(" d'agilité ");
+        sb.append(this.intelligence).append(" d'intelligence !");
         return sb.toString();
     };
 

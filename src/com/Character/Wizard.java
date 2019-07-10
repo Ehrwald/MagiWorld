@@ -1,53 +1,40 @@
 package com.Character;
 
-import com.Exception.InvalidLvlException;
-import com.Exception.TooHightAttributesException;
+import com.Exception.InvalidNiveauException;
+import com.Exception.TooHighAttributesException;
 
 public class Wizard extends Character {
 
-    public Wizard(int numPlayer, int vit, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) throws InvalidLvlException, TooHightAttributesException {
-        super(numPlayer, str, agi, intel, basicAttack, specialAttack, lvl);
+    public Wizard(int niveau, int force, int agilite, int intelligence, String nom)
+            throws TooHighAttributesException, InvalidNiveauException {
+        super(niveau, force, agilite, intelligence, nom);
+        this.nomAttaqueBasique = "Boule de feu";
+        this.nomAttaqueSpeciale = "Soin";
     }
 
     @Override
-    public void basicAtk(Character enemy) {
-
-        this.basicAttack = this.str;
-        System.out.println("Joueur " +this.numPlayer+ " utilise Boule de Feu et inflige " + this.basicAttack +
-                " de point de dégat.");
-        enemy.vit-= this.basicAttack;
-        System.out.println(" Et le joueur " + enemy.numPlayer + " perd " + this.basicAttack + " point de vie");
+    public void attaqueBasique(Character cible) {
+        System.out.println(this.nom + " utilise " + this.nomAttaqueBasique + " et inflige " + this.intelligence +
+                " domages.");
+        cible.prendreDegats(this.intelligence);
     }
 
     @Override
-    public void specialAtk(Character enemy) {
+    public void attaqueSpeciale(Character cible) {
+        int vieilleVie = this.vie;
+        this.vie += this.intelligence*2;
+        if(this.vie > this.niveau*5)
+            this.vie = this.niveau*5;
 
-        this.specialAttack = this.intel *2;
-        this.vit += this.specialAttack;
-        System.out.println("Joueur " + this.numPlayer+ " utilise Soin et se soigne de " + this.specialAttack +
-                " point de vie."  );
-        if(this.vit < maxLifePoint(this.lvl))
-            this.vit = maxLifePoint(this.lvl);
-
+        int soigne = this.vie - vieilleVie;
+        System.out.println(this.nom + " utilise " + this.nomAttaqueSpeciale +" et se soigne de  " + soigne +
+                " domages.");
     }
 
-
-    public int maxLifePoint(int lvl) {
-
-        return lvl*5;
-
+    @Override
+    public String getDescription() {
+        return "Le savoir est la clef! Je suis le Mage " + super.getDescription();
     }
 
-    /*public static void main(String[] args) {
-        Wizard w = new Wizard(1, 5,5,5,5,5,5,5);
-        System.out.println(w.getLvl());
-        w.specialAtk(w);
-
-        Warrior wa = new Warrior(2,2,2,2,2,22,2,2);
-        wa.specialAtk(w);
-        w.specialAtk(w);
-
-
-    }*/
 
 }

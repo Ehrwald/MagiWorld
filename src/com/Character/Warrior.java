@@ -1,45 +1,32 @@
 package com.Character;
 
-import com.Exception.InvalidLvlException;
-import com.Exception.TooHightAttributesException;
+import com.Exception.InvalidNiveauException;
+import com.Exception.TooHighAttributesException;
 
 public class Warrior extends Character {
 
-
-
-    public Warrior(int numPlayer, int str, int agi, int intel, int basicAttack, int specialAttack, int lvl) throws InvalidLvlException, TooHightAttributesException {
-        super(numPlayer, str, agi, intel, basicAttack, specialAttack, lvl);
+    public Warrior(int niveau, int force, int agilite, int intelligence, String nom)
+            throws TooHighAttributesException, InvalidNiveauException {
+        super(niveau, force, agilite, intelligence, nom);
+       this.nomAttaqueBasique = "Coup d'épée";
+       this.nomAttaqueSpeciale = "Coup de rage";
     }
 
     @Override
-    public void basicAtk(Character enemy) {
-
-        this.basicAttack = this.str;
-        System.out.println("Joueur " +this.numPlayer+ " utilise Coup d’Épée et inflige " + this.basicAttack +
-                " de point de dégat.");
-        enemy.vit-= this.basicAttack;
-        System.out.println(" Et le joueur " + enemy.numPlayer + " perd " + this.basicAttack + " point de vie");
-
-
-
-
+    public void attaqueBasique(Character cible) {
+        System.out.println(this.nom + " utilise " + this.nomAttaqueBasique +" et inflige " + this.force + " domages.");
+        cible.prendreDegats(this.force);
     }
 
     @Override
-    public void specialAtk(Character enemy) {
-
-        this.specialAttack = this.str *2;
-        System.out.println("Joueur " +this.numPlayer+ " utilise Coup de Rage et inflige " + this.specialAttack +
-                " de point de dégat.");
-        enemy.vit -= this.specialAttack;
-        System.out.println(" Et le joueur " + enemy.numPlayer + " perd " + this.specialAttack + " point de vie");
-        this.vit -= this.str /2;
-        System.out.println(" Mais le joueur " +this.numPlayer+ " perd lui aussi " + this.str /2 + " point de vie");
-
-
-
-
+    public void attaqueSpeciale(Character cible) {
+        System.out.println(this.nom + " utilise " + this.nomAttaqueSpeciale +" et inflige " +this.force + " domages.");
+        cible.prendreDegats(this.force*2);
+        this.prendreDegats(this.force/2);
     }
 
-
+    @Override
+    public String getDescription() {
+        return "For the King! Je suis le Guerrier " + super.getDescription();
+    }
 }
